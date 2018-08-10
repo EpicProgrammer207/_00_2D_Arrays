@@ -27,8 +27,20 @@ public class Cell implements Drawable{
 	 * 4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 	 * (source: Wikipedia)
 	 * */
-	public void liveOrDie(int numNeighbors) {
-		
+	public void liveOrDie(int cheeseGod) {
+		if(isAlive) {
+		if(cheeseGod<2||cheeseGod>3) {
+			isAlive = false;
+		}
+		else if(cheeseGod == 2 || cheeseGod == 3) {
+			isAlive = true;
+		}
+		}
+		else if(!isAlive) {
+			if (cheeseGod == 3) {
+				isAlive = true;
+			}
+		}
 	}
 	
 	public int getX() {
@@ -44,7 +56,13 @@ public class Cell implements Drawable{
 	//    draws empty square if cell is dead
 	@Override
 	public void draw(Graphics g) {
-	
+	if(isAlive) {
+		g.setColor(Color.GREEN);
+		g.fillRect(x, y, 1, 1);
+	}
+	else if(!isAlive) {
+		g.drawRect(x, y, 1, 1);
+	}
 		
 		
 		
