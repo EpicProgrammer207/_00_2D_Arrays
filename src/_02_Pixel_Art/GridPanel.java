@@ -62,8 +62,10 @@ public class GridPanel extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
+		        g.setColor(pixels[i][j].color);
 				g.fillRect(i, j, pixelWidth, pixelHeight);
 				g.drawRect(i, j, pixelWidth, pixelHeight);
 			}
