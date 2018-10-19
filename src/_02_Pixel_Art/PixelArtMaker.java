@@ -1,5 +1,6 @@
 package _02_Pixel_Art;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +16,14 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class PixelArtMaker implements MouseListener, ActionListener{
 	private JFrame window;
+	JFrame f;
+	JPanel j;
+	JLabel l;
 	private GridInputPanel gip;
 	private GridPanel gp;
 	ColorSelectionPanel csp;
@@ -90,10 +96,9 @@ public class PixelArtMaker implements MouseListener, ActionListener{
 		fielRiter.write("\n"+ ""+ gp.pixels[0].length);
 			for(int i = 0; i<gp.pixels.length; i++){
 			for(int j = 0; j<gp.pixels[i].length;j++) {
-				fielRiter.write("\n" + ""+gp.pixels[i][j]);
-				fielRiter.write("\n" + "" + gp.pixels[i][j].x);
-				fielRiter.write("\n" + "" + gp.pixels[i][j].y);
-				fielRiter.write("\n" + "" + gp.pixels[i][j].color);
+				fielRiter.write("\n" + "" + gp.pixels[i][j].color.getRed());
+				fielRiter.write("\n" + "" + gp.pixels[i][j].color.getBlue());
+				fielRiter.write("\n" + "" + gp.pixels[i][j].color.getGreen());
 			}
 		}
 		fielRiter.close();
@@ -103,17 +108,28 @@ public class PixelArtMaker implements MouseListener, ActionListener{
 		}
 		}
 		if(e.getSource().equals(Load)) {
-			
-			JFileChooser jfc = new JFileChooser();
-			int returnVal = jfc.showOpenDialog(null);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
-				FileReader fielReeder = new FileReader(jfc.getSelectedFile());
+				BufferedReader br = new BufferedReader(new FileReader("src/_02_Pixel_Art/thing.txt"));
+			String s1 = br.readLine();
+			String s2 = br.readLine();
+			int i1 = Integer.parseInt(s1);
+			int i2 = Integer.parseInt(s2);
+			Pixel[][] p = new Pixel[i1][i2];
+
+			for(int i= 0; i<i1; i++) {
+				for(int j = 0; j< p[i].length; j++) {
+					p[i][j] = new Pixel(i*10, j*10);
+					p[i][j].color = new Color(Integer.parseInt(br.readLine()), Integer.parseInt(br.readLine()), Integer.parseInt(br.readLine()));
+					}
+			}
+			gp.repaint();
+			gp.pixels = p;
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
-				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 			
